@@ -1,29 +1,32 @@
 import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import GPACalculator from "@/components/GPACalculator";
 import CGPACalculator from "@/components/CGPACalculator";
 import GradeReference from "@/components/GradeReference";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BookOpen, GraduationCap } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { BookOpen, GraduationCap, Users, HelpCircle, ChevronRight, Calculator, CheckCircle } from "lucide-react";
 
 const Index = () => {
   return (
     <>
       <Helmet>
-        <title>VIT-AP GPA & CGPA Calculator | Calculate Your Grades</title>
+        <title>VIT-AP GPA & CGPA Calculator for Students | Free Online Tool</title>
         <meta
           name="description"
-          content="Free GPA and CGPA calculator for VIT-AP University students. Calculate your semester GPA and cumulative CGPA with accurate grade point formulas."
+          content="Free GPA and CGPA calculator for VIT-AP University students. Calculate your semester GPA and cumulative CGPA accurately based on VIT grading rules. Simple, fast, and mobile-friendly."
         />
         <meta
           name="keywords"
-          content="VIT-AP, GPA calculator, CGPA calculator, grade calculator, VIT Andhra Pradesh, semester GPA"
+          content="VIT-AP, GPA calculator, CGPA calculator, grade calculator, VIT Andhra Pradesh, semester GPA, VIT grading system, B.Tech GPA, M.Tech GPA"
         />
+        <link rel="canonical" href="https://vitap-gpa-calculator.com/" />
       </Helmet>
 
       <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-background to-primary/5 relative overflow-hidden">
-        {/* Background decorations - smaller on mobile */}
+        {/* Background decorations */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 sm:top-20 left-2 sm:left-10 w-32 sm:w-72 h-32 sm:h-72 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-3xl animate-pulse" />
           <div className="absolute bottom-10 sm:bottom-20 right-2 sm:right-10 w-40 sm:w-96 h-40 sm:h-96 bg-gradient-to-tl from-accent/10 to-primary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
@@ -34,6 +37,16 @@ const Index = () => {
 
         <main className="flex-1 container max-w-5xl mx-auto px-3 sm:px-4 py-4 sm:py-8 relative z-10">
           <div className="space-y-4 sm:space-y-6">
+            {/* Hero Section */}
+            <section className="text-center space-y-3 sm:space-y-4">
+              <h1 className="text-xl sm:text-3xl font-bold text-foreground">
+                VIT-AP GPA & CGPA Calculator for Students
+              </h1>
+              <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto">
+                This website helps VIT-AP students calculate their GPA and CGPA accurately based on university grading rules. Simply enter your subject credits and grades to get instant results.
+              </p>
+            </section>
+
             {/* Grade Reference Card */}
             <GradeReference />
 
@@ -65,42 +78,77 @@ const Index = () => {
               </TabsContent>
             </Tabs>
 
-            {/* Instructions */}
-            <div className="bg-gradient-to-br from-card via-card to-accent/5 rounded-xl p-4 sm:p-6 border border-border shadow-xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 pointer-events-none" />
-              <h2 className="text-base sm:text-lg font-semibold text-foreground mb-3 sm:mb-4 flex items-center gap-2 relative">
-                <span className="p-1 sm:p-1.5 bg-gradient-to-br from-primary to-primary/80 rounded-lg">
-                  <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary-foreground" />
-                </span>
-                How to Use
-              </h2>
-              <div className="grid gap-4 sm:gap-6 text-xs sm:text-sm text-muted-foreground relative">
-                <div className="p-3 sm:p-4 rounded-lg bg-gradient-to-br from-accent/10 to-transparent border border-accent/20">
-                  <h3 className="font-medium text-foreground mb-2 flex items-center gap-2">
-                    <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-accent/20 flex items-center justify-center text-xs font-bold text-accent-foreground shrink-0">1</span>
-                    GPA Calculator
-                  </h3>
-                  <ol className="list-decimal list-inside space-y-0.5 sm:space-y-1 ml-7 sm:ml-8">
-                    <li>Enter subject name (optional)</li>
-                    <li>Enter the number of credits</li>
-                    <li>Select the grade obtained</li>
-                    <li>Add more subjects as needed</li>
-                    <li>Click "Calculate GPA"</li>
-                  </ol>
+            {/* How GPA & CGPA are Calculated */}
+            <Card className="bg-gradient-to-br from-card via-card to-accent/5 border-border shadow-xl">
+              <CardContent className="p-4 sm:p-6 space-y-4">
+                <h2 className="text-base sm:text-lg font-semibold text-foreground flex items-center gap-2">
+                  <Calculator className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                  How GPA & CGPA are Calculated
+                </h2>
+                <div className="text-sm text-muted-foreground space-y-3">
+                  <div className="p-3 bg-primary/5 rounded-lg border border-primary/20">
+                    <p className="font-medium text-foreground mb-1">GPA Formula:</p>
+                    <code className="text-xs sm:text-sm">GPA = (Sum of Credit × Grade Point) / Total Credits</code>
+                  </div>
+                  <div className="p-3 bg-accent/5 rounded-lg border border-accent/20">
+                    <p className="font-medium text-foreground mb-1">CGPA Formula:</p>
+                    <code className="text-xs sm:text-sm">CGPA = Average of all Semester GPAs</code>
+                  </div>
                 </div>
-                <div className="p-3 sm:p-4 rounded-lg bg-gradient-to-br from-primary/10 to-transparent border border-primary/20">
-                  <h3 className="font-medium text-foreground mb-2 flex items-center gap-2">
-                    <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary-foreground shrink-0">2</span>
-                    CGPA Calculator
-                  </h3>
-                  <ol className="list-decimal list-inside space-y-0.5 sm:space-y-1 ml-7 sm:ml-8">
-                    <li>Enter semester name (optional)</li>
-                    <li>Enter the semester GPA (0-10)</li>
-                    <li>Add more semesters as needed</li>
-                    <li>Click "Calculate CGPA"</li>
-                  </ol>
+              </CardContent>
+            </Card>
+
+            {/* Who This Tool Is For */}
+            <Card className="bg-gradient-to-br from-card via-card to-primary/5 border-border shadow-xl">
+              <CardContent className="p-4 sm:p-6">
+                <h2 className="text-base sm:text-lg font-semibold text-foreground flex items-center gap-2 mb-4">
+                  <Users className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                  Who This Tool Is For
+                </h2>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                  {["VIT-AP B.Tech Students", "M.Tech Students", "MBA Students", "All VIT Campus Students"].map((item) => (
+                    <div key={item} className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+                      <CheckCircle className="h-3.5 w-3.5 text-primary shrink-0" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              </CardContent>
+            </Card>
+
+            {/* FAQ Preview */}
+            <Card className="bg-gradient-to-br from-card via-card to-accent/5 border-border shadow-xl">
+              <CardContent className="p-4 sm:p-6">
+                <h2 className="text-base sm:text-lg font-semibold text-foreground flex items-center gap-2 mb-4">
+                  <HelpCircle className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+                  Frequently Asked Questions
+                </h2>
+                <div className="space-y-3 text-sm">
+                  <div className="p-3 bg-muted/30 rounded-lg">
+                    <p className="font-medium text-foreground">Is this calculator official?</p>
+                    <p className="text-muted-foreground text-xs sm:text-sm mt-1">No, this is an independent student project, not affiliated with VIT University.</p>
+                  </div>
+                  <div className="p-3 bg-muted/30 rounded-lg">
+                    <p className="font-medium text-foreground">Can I calculate CGPA for all semesters?</p>
+                    <p className="text-muted-foreground text-xs sm:text-sm mt-1">Yes! Enter all your semester GPAs to get your cumulative CGPA.</p>
+                  </div>
+                  <div className="p-3 bg-muted/30 rounded-lg">
+                    <p className="font-medium text-foreground">Is my data saved?</p>
+                    <p className="text-muted-foreground text-xs sm:text-sm mt-1">No, all calculations are done locally. We don't store any of your data.</p>
+                  </div>
+                </div>
+                <Link to="/faq" className="inline-flex items-center gap-1 text-primary text-sm mt-4 hover:underline">
+                  View all FAQs <ChevronRight className="h-4 w-4" />
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Internal Links */}
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+              <Link to="/about" className="text-sm text-primary hover:underline">About Us</Link>
+              <Link to="/contact" className="text-sm text-primary hover:underline">Contact Us</Link>
+              <Link to="/privacy-policy" className="text-sm text-primary hover:underline">Privacy Policy</Link>
+              <Link to="/terms" className="text-sm text-primary hover:underline">Terms & Conditions</Link>
             </div>
           </div>
         </main>
