@@ -18,10 +18,10 @@ const getGradeInfo = (value: number) => {
 const ResultCard = ({ value, type, totalCredits }: ResultCardProps) => {
   if (value === null) {
     return (
-      <div className="bg-gradient-to-br from-muted/30 to-muted/10 rounded-xl p-8 text-center border-2 border-dashed border-border relative overflow-hidden">
+      <div className="bg-gradient-to-br from-muted/30 to-muted/10 rounded-xl p-6 sm:p-8 text-center border-2 border-dashed border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 animate-pulse" />
-        <Sparkles className="h-8 w-8 mx-auto mb-3 text-muted-foreground/50" />
-        <p className="text-muted-foreground relative">
+        <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 mx-auto mb-2 sm:mb-3 text-muted-foreground/50" />
+        <p className="text-xs sm:text-sm text-muted-foreground relative">
           Add subjects and calculate to see your {type}
         </p>
       </div>
@@ -32,31 +32,31 @@ const ResultCard = ({ value, type, totalCredits }: ResultCardProps) => {
   const Icon = gradeInfo.icon;
 
   return (
-    <div className={`bg-gradient-to-br ${gradeInfo.bgGradient} rounded-xl p-8 border-2 ${gradeInfo.borderColor} animate-scale-in relative overflow-hidden`}>
+    <div className={`bg-gradient-to-br ${gradeInfo.bgGradient} rounded-xl p-5 sm:p-8 border-2 ${gradeInfo.borderColor} animate-scale-in relative overflow-hidden`}>
       {/* Animated background effects */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
       <div className="absolute top-2 right-2">
-        <Sparkles className={`h-6 w-6 ${gradeInfo.iconColor} animate-pulse`} />
+        <Sparkles className={`h-4 w-4 sm:h-6 sm:w-6 ${gradeInfo.iconColor} animate-pulse`} />
       </div>
       <div className="absolute bottom-2 left-2">
-        <Star className={`h-4 w-4 ${gradeInfo.iconColor} animate-pulse opacity-50`} />
+        <Star className={`h-3 w-3 sm:h-4 sm:w-4 ${gradeInfo.iconColor} animate-pulse opacity-50`} />
       </div>
       
       <div className="relative">
-        <div className="flex items-center justify-center gap-2 mb-3">
-          <Icon className={`h-6 w-6 ${gradeInfo.iconColor} animate-bounce`} />
-          <span className={`text-lg font-bold ${gradeInfo.iconColor}`}>
+        <div className="flex items-center justify-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+          <Icon className={`h-5 w-5 sm:h-6 sm:w-6 ${gradeInfo.iconColor} animate-bounce`} />
+          <span className={`text-base sm:text-lg font-bold ${gradeInfo.iconColor}`}>
             {gradeInfo.label}
           </span>
         </div>
         <div className="text-center">
-          <p className="text-sm text-muted-foreground mb-2">Your {type}</p>
-          <p className="text-6xl font-bold bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent animate-fade-in">
+          <p className="text-xs sm:text-sm text-muted-foreground mb-1 sm:mb-2">Your {type}</p>
+          <p className="text-4xl sm:text-6xl font-bold bg-gradient-to-r from-foreground via-foreground/90 to-foreground/80 bg-clip-text text-transparent animate-fade-in">
             {value.toFixed(2)}
           </p>
-          <p className="text-sm text-muted-foreground mt-3">out of 10.00</p>
+          <p className="text-xs sm:text-sm text-muted-foreground mt-2 sm:mt-3">out of 10.00</p>
           {totalCredits !== undefined && totalCredits > 0 && (
-            <p className="text-sm text-muted-foreground mt-2 flex items-center justify-center gap-1">
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1.5 sm:mt-2 flex items-center justify-center gap-1">
               <Star className="h-3 w-3" />
               Total Credits: {totalCredits}
             </p>

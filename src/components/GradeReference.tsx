@@ -28,21 +28,21 @@ const GradeReference = () => {
           <Sparkles className="h-4 w-4 text-primary animate-pulse" />
         </div>
       </CardHeader>
-      <CardContent className="relative">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 gap-2">
+      <CardContent className="relative px-3 sm:px-6">
+        <div className="grid grid-cols-4 xs:grid-cols-4 sm:grid-cols-7 gap-1.5 sm:gap-2">
           {grades.map((item, index) => (
             <div
               key={item.grade}
-              className="flex flex-col items-center p-3 rounded-xl bg-gradient-to-br from-card to-muted/30 border border-border hover:border-primary/50 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in group"
+              className="flex flex-col items-center p-2 sm:p-3 rounded-lg sm:rounded-xl bg-gradient-to-br from-card to-muted/30 border border-border hover:border-primary/50 transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in group"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <span className={`text-2xl font-bold bg-gradient-to-r ${item.color} bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200`}>
+              <span className={`text-lg sm:text-2xl font-bold bg-gradient-to-r ${item.color} bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200`}>
                 {item.grade}
               </span>
-              <span className="text-lg font-semibold text-foreground">
+              <span className="text-sm sm:text-lg font-semibold text-foreground">
                 {item.points}
               </span>
-              <span className="text-xs text-muted-foreground text-center">
+              <span className="text-[10px] sm:text-xs text-muted-foreground text-center leading-tight">
                 {item.description}
               </span>
             </div>

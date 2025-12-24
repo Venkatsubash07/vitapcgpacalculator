@@ -44,42 +44,90 @@ const SemesterRow = ({
 
   return (
     <div 
-      className={`grid grid-cols-12 gap-2 md:gap-4 items-center p-3 rounded-xl bg-gradient-to-r ${getRowGradient(index)} border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-fade-in`}
+      className={`flex flex-col gap-3 p-4 rounded-xl bg-gradient-to-r ${getRowGradient(index)} border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg md:hover:scale-[1.02] animate-fade-in`}
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <div className="col-span-12 md:col-span-6 flex items-center gap-2">
-        <Sparkles className="h-4 w-4 text-primary animate-pulse hidden md:block" />
-        <Input
-          type="text"
-          placeholder={`Semester ${index + 1}`}
-          value={semester.name}
-          onChange={(e) => onUpdate(semester.id, "name", e.target.value)}
-          className="bg-card/80 border-input backdrop-blur-sm focus:ring-2 focus:ring-primary/50 transition-all duration-200"
-        />
+      {/* Mobile: Header with delete button */}
+      <div className="flex items-center gap-2 md:hidden">
+        <Sparkles className="h-4 w-4 text-primary animate-pulse shrink-0" />
+        <span className="text-xs font-medium text-muted-foreground">Semester {index + 1}</span>
+        <div className="ml-auto">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => onDelete(semester.id)}
+            disabled={!canDelete}
+            className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 disabled:opacity-30"
+            aria-label="Remove semester"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
-      <div className="col-span-10 md:col-span-4">
-        <Input
-          type="number"
-          placeholder="GPA (0-10)"
-          min="0"
-          max="10"
-          step="0.01"
-          value={semester.gpa}
-          onChange={(e) => handleGpaChange(e.target.value)}
-          className="bg-card/80 border-input backdrop-blur-sm focus:ring-2 focus:ring-primary/50 transition-all duration-200"
-        />
+      
+      {/* Mobile: Stacked inputs */}
+      <div className="flex flex-col gap-3 md:hidden">
+        <div>
+          <label className="text-xs text-muted-foreground mb-1 block">Semester Name</label>
+          <Input
+            type="text"
+            placeholder={`Semester ${index + 1}`}
+            value={semester.name}
+            onChange={(e) => onUpdate(semester.id, "name", e.target.value)}
+            className="bg-card/80 border-input backdrop-blur-sm focus:ring-2 focus:ring-primary/50 transition-all duration-200 h-11"
+          />
+        </div>
+        <div>
+          <label className="text-xs text-muted-foreground mb-1 block">GPA (0-10)</label>
+          <Input
+            type="number"
+            placeholder="Enter GPA"
+            min="0"
+            max="10"
+            step="0.01"
+            value={semester.gpa}
+            onChange={(e) => handleGpaChange(e.target.value)}
+            className="bg-card/80 border-input backdrop-blur-sm focus:ring-2 focus:ring-primary/50 transition-all duration-200 h-11 text-lg font-medium"
+          />
+        </div>
       </div>
-      <div className="col-span-2 flex justify-center">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => onDelete(semester.id)}
-          disabled={!canDelete}
-          className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 disabled:opacity-30 transition-all duration-200 hover:rotate-12"
-          aria-label="Remove semester"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
+
+      {/* Desktop: Grid layout */}
+      <div className="hidden md:grid md:grid-cols-12 md:gap-4 md:items-center">
+        <div className="col-span-6 flex items-center gap-2">
+          <Sparkles className="h-4 w-4 text-primary animate-pulse shrink-0" />
+          <Input
+            type="text"
+            placeholder={`Semester ${index + 1}`}
+            value={semester.name}
+            onChange={(e) => onUpdate(semester.id, "name", e.target.value)}
+            className="bg-card/80 border-input backdrop-blur-sm focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+          />
+        </div>
+        <div className="col-span-4">
+          <Input
+            type="number"
+            placeholder="GPA (0-10)"
+            min="0"
+            max="10"
+            step="0.01"
+            value={semester.gpa}
+            onChange={(e) => handleGpaChange(e.target.value)}
+            className="bg-card/80 border-input backdrop-blur-sm focus:ring-2 focus:ring-primary/50 transition-all duration-200"
+          />
+        </div>
+        <div className="col-span-2 flex justify-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onDelete(semester.id)}
+            disabled={!canDelete}
+            className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 disabled:opacity-30 transition-all duration-200 hover:rotate-12"
+            aria-label="Remove semester"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );
