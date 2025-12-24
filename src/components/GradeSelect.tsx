@@ -24,7 +24,7 @@ const grades = [
 const GradeSelect = ({ value, onChange }: GradeSelectProps) => {
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className="w-full bg-card border-input">
+      <SelectTrigger className="w-full bg-card/80 border-input h-11 backdrop-blur-sm focus:ring-2 focus:ring-accent/50 transition-all duration-200">
         <SelectValue placeholder="Grade" />
       </SelectTrigger>
       <SelectContent className="bg-card border-border">
@@ -32,10 +32,10 @@ const GradeSelect = ({ value, onChange }: GradeSelectProps) => {
           <SelectItem
             key={grade.value}
             value={grade.value}
-            className="cursor-pointer"
+            className="cursor-pointer py-2.5"
           >
             <span className="font-semibold">{grade.label}</span>
-            <span className="text-muted-foreground ml-2 text-sm">
+            <span className="text-muted-foreground ml-2 text-xs sm:text-sm">
               ({grade.value} pts)
             </span>
           </SelectItem>
