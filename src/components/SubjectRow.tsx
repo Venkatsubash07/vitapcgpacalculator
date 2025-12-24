@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { Trash2, BookMarked } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import GradeSelect from "./GradeSelect";
@@ -12,21 +12,38 @@ export interface Subject {
 
 interface SubjectRowProps {
   subject: Subject;
+  index: number;
   onUpdate: (id: string, field: keyof Subject, value: string) => void;
   onDelete: (id: string) => void;
   canDelete: boolean;
 }
 
-const SubjectRow = ({ subject, onUpdate, onDelete, canDelete }: SubjectRowProps) => {
+const SubjectRow = ({ subject, index, onUpdate, onDelete, canDelete }: SubjectRowProps) => {
+  const getRowGradient = (idx: number) => {
+    const gradients = [
+      "from-blue-500/10 to-cyan-500/10",
+      "from-green-500/10 to-teal-500/10",
+      "from-purple-500/10 to-indigo-500/10",
+      "from-orange-500/10 to-amber-500/10",
+      "from-pink-500/10 to-rose-500/10",
+      "from-emerald-500/10 to-green-500/10",
+    ];
+    return gradients[idx % gradients.length];
+  };
+
   return (
-    <div className="grid grid-cols-12 gap-2 md:gap-4 items-center animate-in fade-in slide-in-from-top-2 duration-300">
-      <div className="col-span-12 md:col-span-5">
+    <div 
+      className={`grid grid-cols-12 gap-2 md:gap-4 items-center p-3 rounded-xl bg-gradient-to-r ${getRowGradient(index)} border border-border/50 hover:border-accent/30 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-fade-in`}
+      style={{ animationDelay: `${index * 100}ms` }}
+    >
+      <div className="col-span-12 md:col-span-5 flex items-center gap-2">
+        <BookMarked className="h-4 w-4 text-accent animate-pulse hidden md:block" />
         <Input
           type="text"
           placeholder="Subject Name (optional)"
           value={subject.name}
           onChange={(e) => onUpdate(subject.id, "name", e.target.value)}
-          className="bg-card border-input"
+          className="bg-card/80 border-input backdrop-blur-sm focus:ring-2 focus:ring-accent/50 transition-all duration-200"
         />
       </div>
       <div className="col-span-5 md:col-span-2">
@@ -37,7 +54,7 @@ const SubjectRow = ({ subject, onUpdate, onDelete, canDelete }: SubjectRowProps)
           max="10"
           value={subject.credits}
           onChange={(e) => onUpdate(subject.id, "credits", e.target.value)}
-          className="bg-card border-input"
+          className="bg-card/80 border-input backdrop-blur-sm focus:ring-2 focus:ring-accent/50 transition-all duration-200"
         />
       </div>
       <div className="col-span-5 md:col-span-3">
@@ -52,7 +69,7 @@ const SubjectRow = ({ subject, onUpdate, onDelete, canDelete }: SubjectRowProps)
           size="icon"
           onClick={() => onDelete(subject.id)}
           disabled={!canDelete}
-          className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 disabled:opacity-30"
+          className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 disabled:opacity-30 transition-all duration-200 hover:rotate-12"
           aria-label="Remove subject"
         >
           <Trash2 className="h-4 w-4" />
