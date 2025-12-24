@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Plus, RotateCcw, Calculator } from "lucide-react";
+import { Plus, RotateCcw, Calculator, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SemesterRow, { Semester } from "./SemesterRow";
@@ -13,7 +13,6 @@ const createEmptySemester = (): Semester => ({
   id: generateId(),
   name: "",
   gpa: "",
-  credits: "",
 });
 
 const CGPACalculator = () => {
@@ -22,7 +21,6 @@ const CGPACalculator = () => {
     createEmptySemester(),
   ]);
   const [result, setResult] = useState<number | null>(null);
-  const [totalCredits, setTotalCredits] = useState<number>(0);
 
   const addSemester = useCallback(() => {
     setSemesters((prev) => [...prev, createEmptySemester()]);
@@ -44,25 +42,21 @@ const CGPACalculator = () => {
   );
 
   const calculateCGPA = useCallback(() => {
-    const validSemesters = semesters.filter(
-      (s) => s.gpa !== "" && s.credits !== ""
-    );
+    const validSemesters = semesters.filter((s) => s.gpa !== "");
 
     if (validSemesters.length === 0) {
       toast({
         title: "No valid semesters",
-        description: "Please add at least one semester with GPA and credits.",
+        description: "Please add at least one semester with GPA.",
         variant: "destructive",
       });
       return;
     }
 
-    let totalCreditsSum = 0;
-    let totalWeightedGPA = 0;
+    let totalGPA = 0;
 
     for (const semester of validSemesters) {
       const gpa = parseFloat(semester.gpa);
-      const credits = parseFloat(semester.credits);
 
       if (gpa < 0 || gpa > 10) {
         toast({
@@ -73,34 +67,14 @@ const CGPACalculator = () => {
         return;
       }
 
-      if (credits < 0) {
-        toast({
-          title: "Invalid credits",
-          description: "Credits cannot be negative.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      totalCreditsSum += credits;
-      totalWeightedGPA += gpa * credits;
+      totalGPA += gpa;
     }
 
-    if (totalCreditsSum === 0) {
-      toast({
-        title: "Invalid credits",
-        description: "Total credits cannot be zero.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const cgpa = totalWeightedGPA / totalCreditsSum;
+    const cgpa = totalGPA / validSemesters.length;
     setResult(cgpa);
-    setTotalCredits(totalCreditsSum);
 
     toast({
-      title: "CGPA Calculated!",
+      title: "🎉 CGPA Calculated!",
       description: `Your CGPA is ${cgpa.toFixed(2)} out of 10.00`,
     });
   }, [semesters]);
@@ -108,7 +82,6 @@ const CGPACalculator = () => {
   const resetCalculator = useCallback(() => {
     setSemesters([createEmptySemester(), createEmptySemester()]);
     setResult(null);
-    setTotalCredits(0);
     toast({
       title: "Calculator Reset",
       description: "All fields have been cleared.",
@@ -116,26 +89,35 @@ const CGPACalculator = () => {
   }, []);
 
   return (
-    <Card className="bg-card border-border shadow-lg">
-      <CardHeader className="pb-4">
+    <Card className="bg-gradient-to-br from-card via-card to-primary/5 border-border shadow-xl overflow-hidden relative">
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/5 to-orange-500/5 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/20 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-accent/20 to-transparent rounded-full blur-3xl" />
+      
+      <CardHeader className="pb-4 relative">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CardTitle className="text-xl font-semibold text-foreground">
+            <div className="p-2 bg-gradient-to-br from-primary to-primary/80 rounded-lg shadow-lg">
+              <Sparkles className="h-5 w-5 text-primary-foreground animate-pulse" />
+            </div>
+            <CardTitle className="text-xl font-semibold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
               CGPA Calculator
             </CardTitle>
             <FormulaTooltip type="CGPA" />
           </div>
         </div>
         <p className="text-sm text-muted-foreground">
-          Calculate your cumulative GPA by adding semester-wise GPA and credits
+          Calculate your cumulative GPA by adding semester-wise GPA (simple average)
         </p>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 relative">
         {/* Column Headers */}
         <div className="hidden md:grid grid-cols-12 gap-4 text-sm font-medium text-muted-foreground px-1">
-          <div className="col-span-4">Semester</div>
-          <div className="col-span-3">GPA (0-10)</div>
-          <div className="col-span-3">Credits</div>
+          <div className="col-span-6 flex items-center gap-2">
+            <Sparkles className="h-3 w-3" />
+            Semester
+          </div>
+          <div className="col-span-4">GPA (0-10)</div>
           <div className="col-span-2 text-center">Action</div>
         </div>
 
@@ -157,9 +139,9 @@ const CGPACalculator = () => {
         <Button
           variant="outline"
           onClick={addSemester}
-          className="w-full border-dashed border-2 hover:border-primary hover:bg-primary/5"
+          className="w-full border-dashed border-2 hover:border-primary hover:bg-gradient-to-r hover:from-primary/10 hover:to-accent/10 transition-all duration-300 group"
         >
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className="h-4 w-4 mr-2 group-hover:rotate-90 transition-transform duration-300" />
           Add Semester
         </Button>
 
@@ -167,7 +149,7 @@ const CGPACalculator = () => {
         <div className="flex flex-col sm:flex-row gap-3 pt-2">
           <Button
             onClick={calculateCGPA}
-            className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+            className="flex-1 bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/70 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
           >
             <Calculator className="h-4 w-4 mr-2" />
             Calculate CGPA
@@ -175,7 +157,7 @@ const CGPACalculator = () => {
           <Button
             variant="outline"
             onClick={resetCalculator}
-            className="flex-1"
+            className="flex-1 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50 transition-all duration-300"
           >
             <RotateCcw className="h-4 w-4 mr-2" />
             Reset
@@ -183,7 +165,7 @@ const CGPACalculator = () => {
         </div>
 
         {/* Result */}
-        <ResultCard value={result} type="CGPA" totalCredits={totalCredits} />
+        <ResultCard value={result} type="CGPA" />
       </CardContent>
     </Card>
   );

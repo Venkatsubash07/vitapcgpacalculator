@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Plus, RotateCcw, Calculator } from "lucide-react";
+import { Plus, RotateCcw, Calculator, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SubjectRow, { Subject } from "./SubjectRow";
@@ -92,7 +92,7 @@ const GPACalculator = () => {
     setTotalCredits(totalCreditsSum);
 
     toast({
-      title: "GPA Calculated!",
+      title: "🎉 GPA Calculated!",
       description: `Your GPA is ${gpa.toFixed(2)} out of 10.00`,
     });
   }, [subjects]);
@@ -108,22 +108,28 @@ const GPACalculator = () => {
   }, []);
 
   return (
-    <Card className="bg-card border-border shadow-lg">
-      <CardHeader className="pb-4">
+    <Card className="bg-gradient-to-br from-card via-card to-accent/5 border-border shadow-xl overflow-hidden relative">
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-cyan-500/5 to-teal-500/5 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-accent/20 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-primary/20 to-transparent rounded-full blur-3xl" />
+      
+      <CardHeader className="pb-4 relative">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CardTitle className="text-xl font-semibold text-foreground">
+            <div className="p-2 bg-gradient-to-br from-accent to-accent/80 rounded-lg shadow-lg">
+              <BookOpen className="h-5 w-5 text-accent-foreground animate-pulse" />
+            </div>
+            <CardTitle className="text-xl font-semibold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text">
               GPA Calculator
             </CardTitle>
             <FormulaTooltip type="GPA" />
           </div>
         </div>
         <p className="text-sm text-muted-foreground">
-          Calculate your semester GPA by adding subjects with their credits and
-          grades
+          Calculate your semester GPA by adding subjects with their credits and grades
         </p>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 relative">
         {/* Column Headers */}
         <div className="hidden md:grid grid-cols-12 gap-4 text-sm font-medium text-muted-foreground px-1">
           <div className="col-span-5">Subject Name</div>
@@ -134,10 +140,11 @@ const GPACalculator = () => {
 
         {/* Subject Rows */}
         <div className="space-y-3">
-          {subjects.map((subject) => (
+          {subjects.map((subject, index) => (
             <SubjectRow
               key={subject.id}
               subject={subject}
+              index={index}
               onUpdate={updateSubject}
               onDelete={removeSubject}
               canDelete={subjects.length > 1}
@@ -149,9 +156,9 @@ const GPACalculator = () => {
         <Button
           variant="outline"
           onClick={addSubject}
-          className="w-full border-dashed border-2 hover:border-primary hover:bg-primary/5"
+          className="w-full border-dashed border-2 hover:border-accent hover:bg-gradient-to-r hover:from-accent/10 hover:to-primary/10 transition-all duration-300 group"
         >
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className="h-4 w-4 mr-2 group-hover:rotate-90 transition-transform duration-300" />
           Add Subject
         </Button>
 
@@ -159,7 +166,7 @@ const GPACalculator = () => {
         <div className="flex flex-col sm:flex-row gap-3 pt-2">
           <Button
             onClick={calculateGPA}
-            className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+            className="flex-1 bg-gradient-to-r from-accent to-accent/80 text-accent-foreground hover:from-accent/90 hover:to-accent/70 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
           >
             <Calculator className="h-4 w-4 mr-2" />
             Calculate GPA
@@ -167,7 +174,7 @@ const GPACalculator = () => {
           <Button
             variant="outline"
             onClick={resetCalculator}
-            className="flex-1"
+            className="flex-1 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/50 transition-all duration-300"
           >
             <RotateCcw className="h-4 w-4 mr-2" />
             Reset
